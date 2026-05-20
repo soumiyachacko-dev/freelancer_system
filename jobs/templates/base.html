@@ -85,6 +85,7 @@
         body {
             font-family: 'Manrope', sans-serif;
             background-color: #060e20;
+             min-height: max(884px, 100dvh);
         }
         .font-headline {
             font-family: 'Space Grotesk', sans-serif;
@@ -93,12 +94,7 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
         }
-    </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
+     </style>
 </head>
 <body class="bg-surface text-on-surface flex flex-col min-h-screen">
 <!-- TopAppBar Execution -->
@@ -107,9 +103,8 @@
 <!-- Brand Identity -->
 <div class="flex items-center gap-3">
 <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20">
-<span class="material-symbols-outlined text-[#8ff5ff]" data-icon="architecture">architecture</span>
 </div>
-<span class="text-2xl font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase">FREELANCER SYSTEM</span>
+<span class="text-2xl font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase"><a href="{% url 'index'%}">FREELANCER SYSTEM</a></span>
 </div>
 <!-- Navigation Links -->
 <div class="hidden md:flex items-center gap-10 font-['Space_Grotesk'] tracking-wider uppercase text-sm font-medium">
@@ -215,9 +210,8 @@
 <!-- Footer Logo -->
 <div class="flex items-center gap-3">
 <div class="flex items-center justify-center w-8 h-8 rounded bg-surface-container-high border border-primary/10">
-<span class="material-symbols-outlined text-[#8ff5ff] text-xl" data-icon="architecture">architecture</span>
 </div>
-<span class="text-lg font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase">FREELANCER SYSTEM</span>
+<span class="text-lg font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase"><a href="{% url 'index'%}">FREELANCER SYSTEM</a> </span>
 </div>
 <!-- Footer Links -->
 <div class="flex items-center gap-8 font-['Space_Grotesk'] tracking-widest uppercase text-[10px] font-semibold text-on-surface-variant">
@@ -227,7 +221,7 @@
 </div>
 <!-- Copyright -->
 <div class="text-xs font-['Manrope'] text-on-surface-variant/60">
-<p>© 2024 NEXUS ARCHITECTURE. ALL RIGHTS RESERVED.</p>
+<p>© 2024 FREELANCER SYSTEM. ALL RIGHTS RESERVED.</p>
 </div>
 </div>
 </div>
