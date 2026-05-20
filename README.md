@@ -106,37 +106,7 @@ http://127.0.0.1:8000/
 
 ---
 
-## 🔐 Environment Variables
 
-Create a `.env` file for secret keys:
-
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
-RAZORPAY_KEY_ID=your_key
-RAZORPAY_KEY_SECRET=your_secret
-```
-
----
-
-## 🚀 Future Improvements
-
-- Real-time messaging/chat system
-- Notifications feature
-- REST API using Django REST Framework
-- PostgreSQL integration
-- Docker deployment support
-
----
-
-## 👨‍💻 Developer
-
-**Your Name**  
-Django Full Stack Developer
-
-GitHub: https://github.com/your-username
-
----
 
 ## ⭐ Project Purpose
 
