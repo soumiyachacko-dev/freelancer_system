@@ -1,63 +1,149 @@
-# Freelancer System (Django Project)
+# 🚀 Freelancer System
 
-A full-stack freelancer marketplace built using Django where employers can post jobs and freelancers can apply and manage contracts.
+A full-stack freelance marketplace platform built using **Django**, where employers can post jobs and freelancers can apply, manage contracts, and receive payments securely.
 
----
-
-## 🚀 Features
-
-- User authentication (login/register)
-- Separate dashboards for freelancers & employers
-- Job posting system
-- Job application system
-- Contract management
-- Payment integration (Razorpay)
-- Profile management
-
+This project demonstrates real-world backend development concepts including authentication, role-based access control, contract workflows, and payment integration.
 
 ---
 
-## 🛠 Tech Stack
+## ✨ Features
 
-- Python
-- Django
-- SQLite
-- HTML, CSS, JavaScript
-- Tailwind CSS (if used in your templates)
-- Razorpay API
+- 🔐 User Authentication (Login/Register)
+- 👨‍💼 Separate Dashboards for Freelancers & Employers
+- 💼 Job Posting & Management
+- 📄 Job Application System
+- 🤝 Contract Management
+- 💳 Razorpay Payment Integration
+- 👤 Profile Management
+- 📁 Media/File Upload Support
+- 📱 Responsive UI Design
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Python | Backend Language |
+| Django | Web Framework |
+| SQLite | Database |
+| HTML/CSS/JavaScript | Frontend |
+| Tailwind CSS | UI Styling |
+| Razorpay API | Payment Gateway |
 
 ---
 
 ## 📂 Project Structure
 
-- jobs → main app (jobs, applications, contracts)
-- profiles → user profile system
-- templates → frontend HTML templates
-- media → uploaded files
+```bash
+freelancer_system/
+│
+├── jobs/               # Job, application & contract logic
+├── profiles/           # User profile management
+├── templates/          # Frontend templates
+├── media/              # Uploaded media files
+├── screenshots/        # Project screenshots
+├── manage.py
+└── README.md
+```
 
 ---
 
 ## ⚙️ How to Run Locally
 
+### 1️⃣ Clone Repository
+
 ```bash
 git clone https://github.com/your-username/freelancer_system.git
 cd freelancer_system
+```
 
+### 2️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
+### 3️⃣ Apply Migrations
+
+```bash
+python manage.py migrate
+```
+
+### 4️⃣ Run Development Server
+
+```bash
+python manage.py runserver
+```
+
+Server will start at:
+
+```bash
+http://127.0.0.1:8000/
+```
+
+---
 
 ## 📸 Screenshots
 
 ### 🏠 Employer Dashboard
-![Dashboard](screenshots/employer_dashboard.png)
+![Employer Dashboard](screenshots/employer_dashboard.png)
 
-### 🏠 Freelancer Dashboard
-![Dashboard](screenshots/freelancer_dashboard.png)
+---
 
-### 💼 Login
-(screenshots/login.png)
+### 👨‍💻 Freelancer Dashboard
+![Freelancer Dashboard](screenshots/freelancer_dashboard.png)
+
+---
+
+### 🔐 Login Page
+![Login Page](screenshots/login.png)
+
+---
 
 ### 📄 Contract Page
-![Contract](screenshots/contract.png)
-python manage.py migrate
-python manage.py runserver
+![Contract Page](screenshots/contract.png)
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file for secret keys:
+
+```env
+SECRET_KEY=your_secret_key
+DEBUG=True
+RAZORPAY_KEY_ID=your_key
+RAZORPAY_KEY_SECRET=your_secret
+```
+
+---
+
+## 🚀 Future Improvements
+
+- Real-time messaging/chat system
+- Notifications feature
+- REST API using Django REST Framework
+- PostgreSQL integration
+- Docker deployment support
+
+---
+
+## 👨‍💻 Developer
+
+**Your Name**  
+Django Full Stack Developer
+
+GitHub: https://github.com/your-username
+
+---
+
+## ⭐ Project Purpose
+
+This project was built to demonstrate:
+
+- Full-stack Django development
+- Scalable project architecture
+- Authentication & authorization systems
+- Payment workflow integration
+- Real-world freelancer marketplace functionality
