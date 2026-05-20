@@ -10,17 +10,11 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 from django.core.paginator import Paginator
-import razorpay
 from django.conf import settings
-rzp_client  = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-import razorpay
 
-client = razorpay.Client(
-    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-)
 
 
 def client_required(view_func):
@@ -447,6 +441,11 @@ def edit_client_profile(request):
 
 @client_required
 def create_payment_order(request, contract_id):
+    import razorpay
+
+    client = razorpay.Client(
+        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+    )
     contract = get_object_or_404(Contract, id=contract_id, client=request.user)
     amount = contract.agreed_amount
     if not amount or float(amount) <= 0:
@@ -472,10 +471,14 @@ def create_payment_order(request, contract_id):
 @csrf_exempt
 @require_POST
 def verify_payment(request):
+    import razorpay
     try:
         print("VERIFY VIEW HIT")
         data = json.loads(request.body)
         print("VERIFY DATA:", data)
+        rzp_client = razorpay.Client(
+            auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+        )
         razorpay_order_id = data.get("razorpay_order_id")
         razorpay_payment_id = data.get("razorpay_payment_id")
         razorpay_signature = data.get("razorpay_signature")
