@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="max-w-md mx-auto mt-10 p-6 bg-surface-container rounded-lg shadow-lg border border-outline-variant/20">
+
+    <h2 class="text-xl font-bold mb-4 text-center text-primary font-headline tracking-wide">
+        Register
+    </h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="text-red-400 text-sm text-center mb-2">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <input type="text" name="username" placeholder="Username" required
+            class="w-full px-4 py-2 rounded bg-surface-container-high text-white
+                   border border-outline focus:outline-none focus:border-primary transition">
+<!-- Email -->
+<input type="email" name="email" placeholder="Email" required
+    class="w-full px-4 py-2 rounded bg-surface-container-high text-white
+           border border-outline focus:outline-none focus:border-primary transition">
+        <!-- Password -->
+        <input type="password" name="password" placeholder="Password" required
+            class="w-full px-4 py-2 rounded bg-surface-container-high text-white
+                   border border-outline focus:outline-none focus:border-primary transition">
+<input type="password" name="confirm_password" placeholder="Confirm Password" required
+    class="w-full px-4 py-2 rounded bg-surface-container-high text-white border border-outline">
+        <!-- Role -->
+        <select name="role"
+            class="w-full px-4 py-2 rounded bg-surface-container-high text-white
+                   border border-outline focus:outline-none focus:border-primary transition">
+            <option value="freelancer">Freelancer</option>
+            <option value="client">Employer</option>
+        </select>
+
+        <!-- Button -->
+        <button class="w-full bg-white text-black px-4 py-2 rounded-lg font-bold
+                       uppercase tracking-widest hover:bg-gray-200 transition">
+            Register
+        </button>
+    </form>
+
+    <!-- Footer Link -->
+    <p class="text-sm text-center mt-4 text-gray-400">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-primary hover:underline">
+            Login
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}

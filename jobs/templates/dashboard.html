@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+<div class="max-w-2xl">
+<div class="flex items-center gap-3 mb-2">
+<div class="h-1 w-12 bg-primary"></div>
+<span class="text-primary font-label text-xs uppercase tracking-[0.3em] font-bold">Marketplace</span>
+</div>
+<h1 class="font-headline font-bold text-4xl md:text-4xl tracking-tight text-on-surface mb-4">
+                All Jobs
+            </h1>
+
+</div>
+<!-- Search Bar -->
+<div class="w-full md:w-96 group">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-primary">search</span>
+<form method="GET" action="{% url 'dashboard' %}" >
+    <input class="w-full pl-12 pr-4 py-4 bg-surface-container border border-outline rounded-lg focus:ring-1 focus:ring-primary focus:border-primary transition-all duration-300 font-body placeholder:text-on-surface-variant/40 text-on-surface" name="q"
+        placeholder="Search jobs..." value="{{ request.GET.q }}" type="text"/>
+</form>
+</div>
+</div>
+</div>
+<!-- Jobs Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for item in jobs_with_status %}
+        <article class="glass-card rounded-xl p-8 flex flex-col justify-between group relative overflow-hidden">
+<!-- Decorative corner accent -->
+
+<div class="relative">
+<div class="flex justify-between items-start mb-6">
+<div class="space-y-1">
+<span class="font-label text-primary font-bold tracking-widest text-[10px] uppercase">{{ item.category }}</span>
+<h2 class="font-headline font-bold text-xl text-on-surface leading-tight group-hover:text-primary transition-colors">
+                            {{ item.job.title }}
+                        </h2>
+</div>
+<div class="bg-surface-container border border-outline px-3 py-1.5 rounded text-sm">
+<span class="font-headline font-bold text-primary">₹{{ item.job.budget }}</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed mb-8 line-clamp-3">
+                    {{ item.job.description }}
+                </p>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-outline/50">
+       {% if item.applied %}
+                <div class="flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label font-bold text-[10px] uppercase tracking-widest">Applied</span>
+</div>
+                {% else %}
+          <a class="border border-white text-white px-6 py-2.5 rounded font-label font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2" href="{% url 'apply_job' item.job.id%}">
+    Apply Now
+    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</a>
+                {% endif %}
+
+                <span class="text-on-surface-variant/40 font-label text-[9px] uppercase font-bold tracking-tighter">
+                    {{ item.job.applied_at |timesince }} ago
+                </span>
+</div>
+</article>
+        {% endfor %}
+    </div>
+<!-- Empty Spacer for spacing -->
+<div class="h-24"></div>
+</main>
+
+{% endblock %}

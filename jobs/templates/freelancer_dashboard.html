@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+    <!-- DASHBOARD STATS -->
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
+            <p class="text-gray-400 text-sm">My Contracts</p>
+            <h3 class="text-2xl font-bold text-white">
+                {{ contracts.count }}
+            </h3>
+        </div>
+
+        <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
+            <p class="text-gray-400 text-sm">Completed Tasks</p>
+            <h3 class="text-2xl font-bold text-white">
+                {{ completed_tasks }}
+            </h3>
+        </div>
+
+        <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
+            <p class="text-gray-400 text-sm">Earnings</p>
+            <h3 class="text-2xl font-bold text-white">
+                ₹{{ total_earnings }}
+            </h3>
+        </div>
+
+    </div>
+
+    <!-- ACTIVE CONTRACTS -->
+    <h2 class="text-xl font-bold mb-4 text-primary">My Active Contracts</h2>
+    {% for contract in contracts %}
+    <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-800 mb-3">
+
+        <div class="flex justify-between items-start">
+            <h3 class="text-white font-bold break-words max-w-[70%] text-xl">
+                {{ contract.job.title|linebreaksbr }}
+            </h3>
+            {% if contract and contract.is_active %}
+            <span class="text-primary text-xs font-semibold uppercase tracking-wider">
+                ACTIVE
+            </span>
+
+            {% else %}
+            <span class="text-primary text-xs font-semibold uppercase tracking-wider">
+                INACTIVE
+            </span>
+            {% endif %}
+        </div>
+
+        <p class="text-sm text-gray-400 mt-2">
+            Client: {{ contract.client.username }}
+        </p>
+
+        <div class="mt-3">
+            <a href="{% url 'contract_detail' contract.id %}" class="px-5 py-2.5 text-xs font-bold uppercase tracking-widest
+           text-white border border-white/40 rounded-lg
+           transition-all duration-300 ease-in-out
+           shadow-[0_0_8px_rgba(255,255,255,0.2)]
+           hover:bg-white hover:text-black
+           hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]">
+                Open Job
+            </a>
+        </div>
+
+    </div>
+    {% empty %}
+    <p class="text-gray-500 mb-6">No active contracts yet</p>
+    {% endfor %}
+
+    <form method="GET" class="mb-6">
+        <div class="flex gap-2">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search jobs by title or description..."
+                class="w-full px-4 py-2 rounded-lg bg-[#1c1c1c] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-white">
+
+            <button type="submit" class="px-5 py-2 text-xs font-bold uppercase tracking-widest
+                text-white border border-white/40 rounded-lg
+                transition-all duration-300 ease-in-out
+                hover:bg-white hover:text-black">
+                Search
+            </button>
+
+            {% if request.GET.q %}
+            <a href="{% url 'freelancer_dashboard' %}" class="px-4 py-2 text-xs font-bold uppercase tracking-widest
+           text-gray-400 border border-gray-600 rounded-lg
+           hover:text-white hover:border-white">
+                Clear
+            </a>
+            {% endif %}
+
+        </div>
+    </form>
+
+    <!-- AVAILABLE JOBS -->
+    <h2 class="text-xl font-bold mb-4 text-primary mt-8">Available Jobs</h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        {% for item in jobs_with_status %}
+        <div class="p-4 bg-surface-container rounded-lg border border-outline">
+            <h3 class="font-bold text-white break-words text-xl">
+                {{ item.job.title|linebreaksbr }}
+            </h3>
+            <p class="text-sm text-gray-400 mt-1 break-words">
+                {{ item.job.description|linebreaksbr }}
+            </p>
+            <p class="text-sm text-gray-400 mt-2">
+                Deadline: {{ item.job.deadline }}
+            </p>
+            <p class="text-sm text-gray-400 mt-6 mb-6">
+                <a href="{% url 'client_profile' item.job.client.id %}" class="px-5 py-2.5 text-xs uppercase tracking-widest
+   text-primary border border-primary/40 rounded-lg
+   transition-all duration-300 ease-in-out
+   shadow-[0_0_8px_rgba(0,255,255,0.2)]
+   hover:bg-primary hover:text-black
+   hover:shadow-[0_0_18px_rgba(0,255,255,0.6)]">
+                    Client profile
+                </a>
+            </p>
+            <div class="flex items-center justify-between pt-6 border-t border-outline/50">
+
+                {% if item.applied %}
+                <span class="px-5 py-2.5 text-xs font-bold uppercase tracking-widest
+                     text-green-400 border border-green-400/40 rounded-lg
+                     cursor-not-allowed opacity-70">
+                    Applied
+                </span>
+                {% else %}
+                <a href="{% url 'apply_job' item.job.id %}" class="px-5 py-2.5 text-xs font-bold uppercase tracking-widest
+           text-white border border-white/40 rounded-lg
+           transition-all duration-300 ease-in-out
+           shadow-[0_0_8px_rgba(255,255,255,0.2)]
+           hover:bg-white hover:text-black
+           hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]">
+                    Apply Now
+                </a>
+                {% endif %}
+
+                <span class="font-bold text-primary text-xs">
+                    ₹{{ item.job.budget }}
+                </span>
+
+            </div>
+
+        </div>
+        {% empty %}
+        <p class="text-gray-500">No jobs available</p>
+        {% endfor %}
+
+    </div>
+
+</main>
+{% if jobs_page.has_other_pages %}
+<div class="flex justify-center mt-12 gap-2">
+
+    {% if jobs_page.has_previous %}
+    <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">First</a>
+    <a href="?page={{ jobs_page.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+    {% endif %}
+
+    <span>Page {{ jobs_page.number }} of {{ jobs_page.paginator.num_pages }}</span>
+
+    {% if jobs_page.has_next %}
+    <a href="?page={{ jobs_page.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+    <a href="?page={{ jobs_page.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last</a>
+    {% endif %}
+
+</div>
+{% endif %}
+{% endblock %}

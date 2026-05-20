@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="max-w-7xl mx-auto px-6 py-12">
+{% if messages %}
+    <div class="fixed top-5 right-5 space-y-2 z-50">
+        {% for message in messages %}
+            <div class="px-4 py-2 rounded-lg text-white
+                {% if message.tags == 'error' %} bg-red-500
+                {% elif message.tags == 'success' %} bg-green-500
+                {% else %} bg-gray-700 {% endif %}">
+
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<!-- HERO SECTION -->
+<section class="text-center mb-20">
+
+    <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+        Manage Freelance Work <span class="text-primary">Smarter</span>
+    </h1>
+
+    <p class="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
+        A complete freelancing management system to connect clients and freelancers,
+        manage contracts, track tasks, and handle payments seamlessly.
+    </p>
+
+    <div class="mt-8 flex justify-center gap-4 flex-wrap">
+
+        <a href="{% url 'post_job' %}"
+           class="px-6 py-3 bg-primary text-black font-bold rounded-lg hover:opacity-90 transition">
+            Explore Jobs
+        </a>
+
+        <a href="{% url 'register' %}"
+           class="px-6 py-3 border border-gray-500 text-white rounded-lg hover:bg-white hover:text-black transition">
+            Get Started
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES SECTION -->
+<section class="grid md:grid-cols-3 gap-6 mb-20">
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Job Posting</h3>
+        <p class="text-gray-400 text-sm">
+            Clients can easily post jobs, set budgets, deadlines, and manage applicants in one place.
+        </p>
+    </div>
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Smart Contracts</h3>
+        <p class="text-gray-400 text-sm">
+            Automatically generated contracts ensure secure collaboration between freelancers and clients.
+        </p>
+    </div>
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Task Tracking</h3>
+        <p class="text-gray-400 text-sm">
+            Break projects into tasks, track progress, and ensure timely delivery with real-time updates.
+        </p>
+    </div>
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Secure Payments</h3>
+        <p class="text-gray-400 text-sm">
+            Clients pay only when tasks are completed, ensuring transparency and trust.
+        </p>
+    </div>
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Freelancer Profiles</h3>
+        <p class="text-gray-400 text-sm">
+            Showcase skills, past work, and ratings to build credibility and attract clients.
+        </p>
+    </div>
+
+    <div class="bg-[#1c1c1c] p-6 rounded-xl border border-gray-800">
+        <h3 class="text-xl font-bold text-white mb-2">Real-Time Dashboard</h3>
+        <p class="text-gray-400 text-sm">
+            Track applications, contracts, earnings, and job progress in a unified dashboard.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="mb-20">
+
+    <h2 class="text-2xl font-bold text-white text-center mb-10">
+        How It Works
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6 text-center">
+
+        <div class="p-6 bg-[#1c1c1c] rounded-xl border border-gray-800">
+            <div class="text-primary text-3xl font-bold mb-2">1</div>
+            <h3 class="text-white font-bold mb-2">Post or Apply</h3>
+            <p class="text-gray-400 text-sm">
+                Clients post jobs and freelancers apply with proposals.
+            </p>
+        </div>
+
+        <div class="p-6 bg-[#1c1c1c] rounded-xl border border-gray-800">
+            <div class="text-primary text-3xl font-bold mb-2">2</div>
+            <h3 class="text-white font-bold mb-2">Work & Track</h3>
+            <p class="text-gray-400 text-sm">
+                Contracts are created, tasks are assigned, and progress is tracked.
+            </p>
+        </div>
+
+        <div class="p-6 bg-[#1c1c1c] rounded-xl border border-gray-800">
+            <div class="text-primary text-3xl font-bold mb-2">3</div>
+            <h3 class="text-white font-bold mb-2">Get Paid</h3>
+            <p class="text-gray-400 text-sm">
+                Payments are released after successful task completion.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CALL TO ACTION -->
+<section class="text-center bg-[#1c1c1c] border border-gray-800 rounded-xl p-10">
+
+    <h2 class="text-3xl font-bold text-white mb-4">
+        Start Managing Freelance Work Efficiently Today
+    </h2>
+
+    <p class="text-gray-400 mb-6 max-w-xl mx-auto">
+        Join the platform and simplify how you hire, work, and get paid.
+    </p>
+
+    <a href="{% url 'register' %}"
+       class="px-8 py-4 bg-primary text-black font-bold rounded-lg hover:opacity-90 transition">
+        Create Account
+    </a>
+
+</section>
+
+</main>
+
+{% endblock %}

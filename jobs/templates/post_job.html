@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class=" flex items-center justify-center p-6 sm:p-12">
+<div class="w-full max-w-xl relative z-10">
+<!-- Header Section -->
+<div class="flex flex-col mb-10 pl-8">
+<h1 class="font-headline text-4xl md:text-3xl font-bold tracking-tight text-on-surface ">Post a Job</h1>
+{% if messages %}
+  <div class="mt-6 ">
+    {% for message in messages %}
+      <div class="px-4 py-3 rounded-lg text-sm font-medium
+        {% if message.tags == 'error' %}
+          bg-red-500/10 text-red-400 border border-red-500/30
+        {% elif message.tags == 'success' %}
+          bg-green-500/10 text-green-400 border border-green-500/30
+        {% elif message.tags == 'warning' %}
+          bg-yellow-500/10 text-yellow-400 border border-yellow-500/30
+        {% else %}
+          bg-gray-500/10 text-gray-300 border border-gray-500/30
+        {% endif %}
+      ">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+</div>
+<!-- Form Section -->
+<section class="bg-surface-container-low/50 border border-outline-variant/20 rounded-xl overflow-hidden glass-panel">
+<form class="p-8 md:p-10 flex flex-col gap-6" method="POST">
+    {% csrf_token %}
+
+    <!-- Job Title -->
+    <div class="flex flex-col gap-2 group">
+        <label
+            class="font-label text-on-surface-variant text-[0.7rem] tracking-[0.15em] uppercase font-bold"
+            for="job_title"
+        >
+            Job Title
+        </label>
+
+        <input
+            class="w-full p-3 bg-black/50 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+            id="title"
+            name="title"
+            type="text"
+            required
+        />
+    </div>
+
+    <!-- Scope of Work -->
+    <div class="flex flex-col gap-2 group">
+        <label
+            class="font-label text-on-surface-variant text-[0.7rem] tracking-[0.15em] uppercase font-bold"
+            for="description"
+        >
+            Scope of Work
+        </label>
+
+        <textarea
+            class="w-full p-3 bg-black/50 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition resize-none"
+            id="description"
+            name="description"
+            rows="6"
+            required
+        ></textarea>
+    </div>
+
+    <!-- Budget -->
+    <div class="flex flex-col gap-2 group">
+        <label
+            class="font-label text-on-surface-variant text-[0.7rem] tracking-[0.15em] uppercase font-bold"
+            for="budget"
+        >
+            Resource Allocation (Budget USD)
+        </label>
+
+        <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">
+                $
+            </span>
+
+            <input
+                class="w-full p-3 pl-10 bg-black/50 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+                id="budget"
+                name="budget"
+                placeholder="0.00"
+                type="number"
+                required
+            />
+        </div>
+    </div>
+
+    <!-- Deadline -->
+    <div class="flex flex-col gap-2 group">
+        <label
+            class="font-label text-on-surface-variant text-[0.7rem] tracking-[0.15em] uppercase font-bold"
+            for="deadline"
+        >
+            Deadline
+        </label>
+
+        <div class="relative">
+            <span
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"
+            >
+                📅
+            </span>
+
+            <input
+                class="w-full p-3 pr-12 bg-black/50 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition cursor-pointer"
+                id="deadline"
+                name="deadline"
+                type="date"
+                required
+                onclick="this.showPicker()"
+            />
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="pt-4">
+        <button
+            class="border border-white text-white px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
+        >
+            Submit
+        </button>
+    </div>
+</form>
+</section>
+</div>
+</main>
+
+{% endblock %}
