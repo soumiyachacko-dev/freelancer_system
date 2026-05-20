@@ -119,11 +119,6 @@ USE_TZ = True
 
 RAZORPAY_KEY_ID = "rzp_test_SjFMIAqrYossnz"
 RAZORPAY_KEY_SECRET = "5LwmYOpB4BBs5Un9QI7jzbGp"
-import razorpay
-
-RAZORPAY_CLIENT = razorpay.Client(
-    auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET)
-)
 
 TIME_ZONE = 'Asia/Kolkata'
 STATIC_URL = '/static/'

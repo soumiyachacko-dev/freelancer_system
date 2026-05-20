@@ -16,6 +16,11 @@ rzp_client  = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+import razorpay
+
+client = razorpay.Client(
+    auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+)
 
 
 def client_required(view_func):
