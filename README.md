@@ -44,5 +44,20 @@ git clone https://github.com/your-username/freelancer_system.git
 cd freelancer_system
 
 pip install -r requirements.txt
+
+
+## 📸 Screenshots
+
+### 🏠 Employer Dashboard
+![Dashboard](screenshots/employer_dashboard.png)
+
+### 🏠 Freelancer Dashboard
+![Dashboard](screenshots/freelancer_dashboard.png)
+
+### 💼 Login
+(screenshots/login.png)
+
+### 📄 Contract Page
+![Contract](screenshots/contract.png)
 python manage.py migrate
 python manage.py runserver
