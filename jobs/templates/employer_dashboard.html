@@ -1,324 +1,294 @@
-```html
 {% extends 'base.html' %}
 {% block content %}
-
-<main class="max-w-6xl mx-auto px-3 sm:px-4 overflow-x-hidden">
-
+<main class="max-w-6xl mx-auto px-4">
     <!-- DASHBOARD STATS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-
+    <div class="grid md:grid-cols-3 gap-4 mb-8">
         <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
             <p class="text-gray-400 text-sm">Total Jobs</p>
             <h3 class="text-2xl font-bold text-white">{{ total_jobs }}</h3>
         </div>
-
         <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
             <p class="text-gray-400 text-sm">Active Contracts</p>
             <h3 class="text-2xl font-bold text-white">{{ active_contracts }}</h3>
         </div>
-
         <div class="p-4 bg-[#1c1c1c] rounded-lg border border-gray-700">
             <p class="text-gray-400 text-sm">Total Spent</p>
             <h3 class="text-2xl font-bold text-white">₹{{ total_spent }}</h3>
         </div>
+    </div>
+
+    <form method="GET" class="mb-6">
+        <div class="flex gap-2">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search jobs by title or description..."
+                class="w-full px-4 py-2 rounded-lg bg-[#1c1c1c] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-white">
+            <button type="submit" class="px-5 py-2 text-xs font-bold uppercase tracking-widest
+                text-white border border-white/40 rounded-lg
+                transition-all duration-300 ease-in-out
+                hover:bg-white hover:text-black">
+                Search
+            </button>
+            {% if request.GET.q %}
+            <a href="{% url 'employer_dashboard' %}" class="px-4 py-2 text-xs font-bold uppercase tracking-widest
+           text-gray-400 border border-gray-600 rounded-lg
+           hover:text-white hover:border-white">
+                Clear
+            </a>
+            {% endif %}
+        </div>
+    </form>
+    <!-- JOB LIST -->
+    <h2 class="text-2xl font-bold mb-8 text-primary">My Posted Jobs</h2>
+    {% for item in job_data %}
+    {% with job=item.job %}
+    <div class="mb-6 p-6 bg-[#1c1c1c] rounded-xl border border-gray-800">
+
+<!-- Job Info -->
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
+
+    <!-- LEFT SIDE -->
+    <div class="w-full sm:max-w-[70%]">
+        <h3 class="text-xl font-bold text-white break-words leading-snug">
+            {{ job.title|linebreaksbr }}
+        </h3>
+
+        <span class="text-primary font-bold block mt-2">
+            ₹{{ job.budget }}
+        </span>
+    </div>
+
+    <!-- RIGHT SIDE BUTTONS -->
+    <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+
+        <a href="{% url 'edit_job' job.id %}"
+           class="flex-1 sm:flex-none text-center
+                  px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-widest
+                  text-white border border-white/40 rounded-lg
+                  transition-all duration-300 ease-in-out
+                  shadow-[0_0_8px_rgba(255,255,255,0.2)]
+                  hover:bg-white hover:text-black
+                  hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]
+                  whitespace-nowrap">
+            Edit
+        </a>
+
+        <form method="POST"
+              action="{% url 'delete_job' job.id %}"
+              onsubmit="return confirm('Are you sure you want to delete this job?');"
+              class="flex-1 sm:flex-none">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="w-full px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-widest
+                           text-white border border-red-500/40 rounded-lg
+                           transition-all duration-300 ease-in-out
+                           shadow-[0_0_8px_rgba(255,0,0,0.3)]
+                           hover:bg-red-600 hover:text-white
+                           hover:shadow-[0_0_18px_rgba(255,0,0,0.7)]
+                           whitespace-nowrap">
+                Delete
+            </button>
+
+        </form>
 
     </div>
 
-    <!-- SEARCH -->
-    <form method="GET" class="mb-6">
+</div>
 
-        <div class="flex flex-col sm:flex-row gap-2">
-
-            <input type="text"
-                   name="q"
-                   value="{{ request.GET.q }}"
-                   placeholder="Search jobs by title or description..."
-                   class="w-full px-4 py-2 rounded-lg bg-[#1c1c1c]
-                          border border-gray-700 text-white
-                          placeholder-gray-500
-                          focus:outline-none focus:border-white">
-
-            <button type="submit"
-                    class="px-5 py-2 text-xs font-bold uppercase tracking-widest
-                           text-white border border-white/40 rounded-lg
-                           transition-all duration-300 ease-in-out
-                           hover:bg-white hover:text-black
-                           whitespace-nowrap">
-                Search
-            </button>
-
-            {% if request.GET.q %}
-
-            <a href="{% url 'employer_dashboard' %}"
-               class="px-4 py-2 text-xs font-bold uppercase tracking-widest
-                      text-gray-400 border border-gray-600 rounded-lg
-                      hover:text-white hover:border-white
-                      text-center whitespace-nowrap">
-                Clear
-            </a>
-
-            {% endif %}
-
-        </div>
-
-    </form>
-
-    <!-- JOB LIST -->
-    <h2 class="text-2xl font-bold mb-8 text-primary">
-        My Posted Jobs
-    </h2>
-
-    {% for item in job_data %}
-    {% with job=item.job %}
-
-    <div class="mb-6 p-4 sm:p-6 bg-[#1c1c1c]
-                rounded-xl border border-gray-800 overflow-hidden">
-
-        <!-- Job Info -->
-        <div class="flex flex-col sm:flex-row
-                    sm:justify-between sm:items-start
-                    gap-4 mb-4">
-
-            <!-- LEFT -->
-            <div class="w-full sm:max-w-[70%]">
-
-                <h3 class="text-xl font-bold text-white
-                           break-words leading-snug">
-                    {{ job.title|linebreaksbr }}
-                </h3>
-
-                <span class="text-primary font-bold block mt-2">
-                    ₹{{ job.budget }}
-                </span>
-
-            </div>
-
-            <!-- RIGHT BUTTONS -->
-            <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-
-                <a href="{% url 'edit_job' job.id %}"
-                   class="flex-1 sm:flex-none text-center
-                          px-4 py-2 text-xs sm:text-sm
-                          font-bold uppercase tracking-widest
-                          text-white border border-white/40 rounded-lg
-                          transition-all duration-300 ease-in-out
-                          hover:bg-white hover:text-black
-                          whitespace-nowrap">
-                    Edit
-                </a>
-
-                <form method="POST"
-                      action="{% url 'delete_job' job.id %}"
-                      class="flex-1 sm:flex-none">
-
-                    {% csrf_token %}
-
-                    <button type="submit"
-                            class="w-full px-4 py-2
-                                   text-xs sm:text-sm
-                                   font-bold uppercase tracking-widest
-                                   text-white border border-red-500/40
-                                   rounded-lg
-                                   transition-all duration-300 ease-in-out
-                                   hover:bg-red-600 hover:text-white
-                                   whitespace-nowrap">
-
-                        Delete
-
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
 
         <p class="text-gray-400 text-sm mb-4 break-words">
             Scope of Work: {{ job.description|linebreaksbr }}
         </p>
-
-        <p class="text-gray-400 text-sm mb-4 break-words">
+        <p class="text-gray-400 text-sm mb-4">
             Deadline: {{ job.deadline }}
         </p>
 
         <h2 class="text-primary mb-3">Applicants:</h2>
-
         <p class="text-sm text-gray-500 mb-3">
             {{ job.applications.count }} Applicants
         </p>
-
         {% for entry in item.applications %}
         {% with app=entry.app contract=entry.contract %}
 
-        <!-- APPLICANT CARD -->
-        <div class="flex flex-col sm:flex-row
-                    sm:justify-between sm:items-center
-                    gap-3
-                    bg-[#2a2a2a]
-                    p-3 rounded mb-2 overflow-hidden">
+<div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 bg-[#2a2a2a] p-4 rounded mb-3">
 
-            <!-- USER -->
+    <!-- USERNAME -->
+    <div class="w-full">
+        <span class="text-white font-medium break-words">
+            {{ app.user.username }}
+        </span>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+
+        {% if app.user.id %}
+        <a href="{% url 'freelancer_profile' app.user.id %}"
+           class="flex-1 sm:flex-none text-center
+                  px-4 py-2 text-xs font-bold uppercase tracking-widest
+                  text-primary border border-primary/40 rounded-lg
+                  transition-all duration-300 ease-in-out
+                  shadow-[0_0_8px_rgba(0,255,255,0.2)]
+                  hover:bg-primary hover:text-black
+                  hover:shadow-[0_0_18px_rgba(0,255,255,0.6)]
+                  whitespace-nowrap">
+            Freelancer Profile
+        </a>
+        {% endif %}
+
+        {% if app.status == 'pending' %}
+
+        <a href="{% url 'accept_application' app.id %}"
+           class="flex-1 sm:flex-none text-center
+                  px-4 py-2 text-xs font-bold uppercase tracking-widest
+                  text-white border border-green-500/40 rounded-lg
+                  transition-all duration-300 ease-in-out
+                  shadow-[0_0_8px_rgba(34,197,94,0.3)]
+                  hover:bg-green-500 hover:text-white
+                  hover:shadow-[0_0_18px_rgba(34,197,94,0.7)]
+                  whitespace-nowrap">
+            Accept
+        </a>
+
+        <a href="{% url 'reject_application' app.id %}"
+           class="flex-1 sm:flex-none text-center
+                  px-4 py-2 text-xs font-bold uppercase tracking-widest
+                  text-white border border-red-500/40 rounded-lg
+                  transition-all duration-300 ease-in-out
+                  shadow-[0_0_8px_rgba(239,68,68,0.3)]
+                  hover:bg-red-500 hover:text-white
+                  hover:shadow-[0_0_18px_rgba(239,68,68,0.7)]
+                  whitespace-nowrap">
+            Reject
+        </a>
+
+        {% elif contract and contract.id %}
+
+            {% if contract.is_fully_paid %}
+
+            <a href="{% url 'contract_detail' contract.id %}"
+               class="flex-1 sm:flex-none text-center
+                      px-4 py-2 text-xs font-bold uppercase tracking-widest
+                      text-white border border-white/40 rounded-lg
+                      transition-all duration-300 ease-in-out
+                      shadow-[0_0_8px_rgba(255,255,255,0.2)]
+                      hover:bg-white hover:text-black
+                      hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]
+                      whitespace-nowrap">
+                View Tasks
+            </a>
+
+            {% elif entry.is_completed %}
+
+            <a href="{% url 'contract_detail' contract.id %}"
+               class="flex-1 sm:flex-none text-center
+                      px-4 py-2 text-xs font-bold uppercase tracking-widest
+                      text-white border border-white/40 rounded-lg
+                      transition-all duration-300 ease-in-out
+                      shadow-[0_0_8px_rgba(255,255,255,0.2)]
+                      hover:bg-white hover:text-black
+                      hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]
+                      whitespace-nowrap">
+                Make Payment
+            </a>
+
+            {% elif entry.has_tasks %}
+
+            <a href="{% url 'contract_detail' contract.id %}"
+               class="flex-1 sm:flex-none text-center
+                      px-4 py-2 text-xs font-bold uppercase tracking-widest
+                      text-white border border-white/40 rounded-lg
+                      transition-all duration-300 ease-in-out
+                      shadow-[0_0_8px_rgba(255,255,255,0.2)]
+                      hover:bg-white hover:text-black
+                      hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]
+                      whitespace-nowrap">
+                View Tasks
+            </a>
+
+            {% else %}
+
+            <a href="{% url 'contract_detail' contract.id %}"
+               class="flex-1 sm:flex-none text-center
+                      px-4 py-2 text-xs font-bold uppercase tracking-widest
+                      text-white border border-white/40 rounded-lg
+                      transition-all duration-300 ease-in-out
+                      shadow-[0_0_8px_rgba(255,255,255,0.2)]
+                      hover:bg-white hover:text-black
+                      hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]
+                      whitespace-nowrap">
+                Add Tasks
+            </a>
+
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+</div>
+
+
+
+        <div class="flex justify-between items-center bg-[#2a2a2a] p-3 rounded mb-2">
             <div class="flex items-center gap-3">
+                <p class="text-primary text-xs font-semibold">Notification:
 
-                <span class="text-white font-medium break-words">
-                    {{ app.user.username }}
-                </span>
+                    {% if contract and contract.status == 'cancelled' %}
+                    <span class="text-red-400 text-xs font-semibold uppercase tracking-wider">CONTRACT CANCELLED</span>
 
-            </div>
+                    {% elif app.status == 'rejected' %}
+                    <span class="text-red-400 text-xs font-semibold  tracking-wider">APPLICATION HAS BEEN REJECTED BY
+                        YOU</span>
 
-            <!-- ACTIONS -->
-            <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                    {% elif contract and contract.is_completed %}
+                    <span class="text-green-400 text-xs font-semibold uppercase tracking-wider">Contract is
+                        COMPLETED</span>
 
-                {% if app.user.id %}
+                    {% elif contract and contract.is_active %}
+                    <span class="text-blue-400 text-xs font-semibold uppercase tracking-wider">Contract is active</span>
 
-                <a href="{% url 'freelancer_profile' app.user.id %}"
-                   class="flex-1 sm:flex-none text-center
-                          px-3 sm:px-5 py-2.5
-                          text-[10px] sm:text-xs
-                          font-bold uppercase tracking-widest
-                          text-primary border border-primary/40
-                          rounded-lg
-                          transition-all duration-300 ease-in-out
-                          hover:bg-primary hover:text-black
-                          whitespace-nowrap">
+                    {% elif contract and not contract.is_started %}
+                    <span class="text-yellow-400 text-xs font-semibold uppercase tracking-wider">
+                        Please add task to complete the Job
+                    </span>
 
-                    Freelancer Profile
-
-                </a>
-
-                {% endif %}
-
-                {% if app.status == 'pending' %}
-
-                <a href="{% url 'accept_application' app.id %}"
-                   class="flex-1 sm:flex-none text-center
-                          px-3 sm:px-5 py-2.5
-                          text-[10px] sm:text-xs
-                          font-bold uppercase tracking-widest
-                          border border-green-500/40
-                          rounded-lg
-                          hover:bg-green-500 hover:text-white
-                          whitespace-nowrap">
-
-                    Accept
-
-                </a>
-
-                <a href="{% url 'reject_application' app.id %}"
-                   class="flex-1 sm:flex-none text-center
-                          px-3 sm:px-5 py-2.5
-                          text-[10px] sm:text-xs
-                          font-bold uppercase tracking-widest
-                          border border-red-500/40
-                          rounded-lg
-                          hover:bg-red-500 hover:text-white
-                          whitespace-nowrap">
-
-                    Reject
-
-                </a>
-
-                {% elif contract and contract.id %}
-
-                <a href="{% url 'contract_detail' contract.id %}"
-                   class="flex-1 sm:flex-none text-center
-                          px-3 sm:px-5 py-2.5
-                          text-[10px] sm:text-xs
-                          font-bold uppercase tracking-widest
-                          text-white border border-white/40
-                          rounded-lg
-                          transition-all duration-300 ease-in-out
-                          hover:bg-white hover:text-black
-                          whitespace-nowrap">
-
-                    {% if contract.is_fully_paid %}
-                        View Tasks
-                    {% elif entry.is_completed %}
-                        Make Payment
-                    {% elif entry.has_tasks %}
-                        View Tasks
                     {% else %}
-                        Add Tasks
+                    <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">NOT STARTED</span>
                     {% endif %}
 
-                </a>
-
-                {% endif %}
-
+                </p>
             </div>
-
-        </div>
-
-        <!-- NOTIFICATION -->
-        <div class="bg-[#2a2a2a] p-3 rounded mb-2">
-
-            <p class="text-primary text-xs font-semibold break-words">
-
-                Notification:
-
-                {% if contract and contract.status == 'cancelled' %}
-
-                <span class="text-red-400 text-xs font-semibold uppercase tracking-wider">
-                    CONTRACT CANCELLED
-                </span>
-
-                {% elif app.status == 'rejected' %}
-
-                <span class="text-red-400 text-xs font-semibold tracking-wider">
-                    APPLICATION HAS BEEN REJECTED BY YOU
-                </span>
-
-                {% elif contract and contract.is_completed %}
-
-                <span class="text-green-400 text-xs font-semibold uppercase tracking-wider">
-                    CONTRACT COMPLETED
-                </span>
-
-                {% elif contract and contract.is_active %}
-
-                <span class="text-blue-400 text-xs font-semibold uppercase tracking-wider">
-                    CONTRACT ACTIVE
-                </span>
-
-                {% elif contract and not contract.is_started %}
-
-                <span class="text-yellow-400 text-xs font-semibold uppercase tracking-wider">
-                    Please add task to complete the job
-                </span>
-
-                {% else %}
-
-                <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">
-                    NOT STARTED
-                </span>
-
-                {% endif %}
-
-            </p>
-
         </div>
 
         {% endwith %}
         {% empty %}
-
-        <p class="text-gray-500 text-sm">
-            No applications yet
-        </p>
-
+        <p class="text-gray-500 text-sm">No applications yet</p>
         {% endfor %}
 
     </div>
 
     {% endwith %}
     {% empty %}
-
-    <p class="text-gray-500">
-        No jobs posted yet
-    </p>
-
+    <p class="text-gray-500">No jobs posted yet</p>
     {% endfor %}
+    {% if jobs_page.has_other_pages %}
+    <div class="flex justify-center mt-6 gap-2">
 
+        {% if jobs_page.has_previous %}
+        <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">First</a>
+        <a
+            href="?page={{ jobs_page.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Prev</a>
+        {% endif %}
+
+        <span>Page {{ jobs_page.number }} of {{ jobs_page.paginator.num_pages }}</span>
+
+        {% if jobs_page.has_next %}
+        <a href="?page={{ jobs_page.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+        <a
+            href="?page={{ jobs_page.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Last</a>
+        {% endif %}
+
+    </div>
+    {% endif %}
 </main>
-
 {% endblock %}
-```
