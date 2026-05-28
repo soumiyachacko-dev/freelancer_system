@@ -58,6 +58,7 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
         template_name='reset_password_done.html'
     ), name='password_reset_complete'),
+    path('create-admin/', views.create_admin, name='create_admin'),
 ]
 
 if settings.DEBUG:
