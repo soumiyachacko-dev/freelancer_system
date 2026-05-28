@@ -94,103 +94,136 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
         }
+    html, body {
+  overflow-x: hidden;color:white;
      </style>
 </head>
-<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<body class="overflow-x-hidden">
 <!-- TopAppBar Execution -->
 <header class="fixed top-0 w-full z-50 bg-[#060e20] backdrop-blur-xl bg-opacity-60 shadow-[0_40px_40px_rgba(8,0,121,0.08)]">
-<nav class="flex items-center justify-between px-8 h-20 w-full max-w-full">
-<!-- Brand Identity -->
-<div class="flex items-center gap-3">
-<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20">
-</div>
-<span class="text-2xl font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase"><a href="{% url 'index'%}">FREELANCER SYSTEM</a></span>
-</div>
-<!-- Navigation Links -->
-<div class="hidden md:flex items-center gap-10 font-['Space_Grotesk'] tracking-wider uppercase text-sm font-medium">
-<!-- Dashboard Active State -->
+<nav class="flex flex-wrap items-center justify-between px-4 py-3 gap-4">
 
+    <!-- Brand -->
+    <div class="flex items-center gap-3 flex-shrink-0">
+        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-container-high border border-primary/20">
+        </div>
 
-{% if request.user.is_authenticated and request.user.userprofile.role == "freelancer" %}
-<a href="{% url 'freelancer_dashboard' %}"
-   class="pb-1 transition-all duration-300 {% if request.resolver_match.url_name == 'freelancer_dashboard' %}text-[#8ff5ff] border-[#8ff5ff] border-b-2 {% else %}text-slate-400 hover:text-[#8ff5ff]{% endif %}">
-   Dashboards
-</a>
+        <span class="text-lg sm:text-2xl font-bold tracking-tighter text-[#8ff5ff] font-['Space_Grotesk'] uppercase">
+            <a href="{% url 'index'%}">FREELANCER SYSTEM</a>
+        </span>
+    </div>
 
-    <a href="{% url 'edit_profile' %}"
-   class="pb-1 transition-all duration-300 {% if request.resolver_match.url_name == 'edit_profile' %}text-[#8ff5ff] border-b-2 border-[#8ff5ff]{% else %}text-slate-400 hover:text-[#8ff5ff]{% endif %}">
-   Edit Profile
-</a>
-{% endif %}
-    {% if request.user.is_authenticated and request.user.userprofile.role == "client" %}
-    <a href="{% url 'employer_dashboard' %}"
-   class="pb-1 transition-all duration-300 {% if request.resolver_match.url_name == 'employer_dashboard' %}text-[#8ff5ff] border-[#8ff5ff] border-b-2 {% else %}text-slate-400 hover:text-[#8ff5ff]{% endif %}">
-   Dashboards
-</a>
-<a href="{% url 'edit_client_profile' %}"
-   class="pb-1 transition-all duration-300
-          {% if request.resolver_match.url_name == 'edit_client_profile' %}text-[#8ff5ff] border-b-2 border-[#8ff5ff]{% else %}text-slate-400 hover:text-[#8ff5ff]{% endif %}">
-   Edit Profile
-</a>
-{% endif %}
-</div>
-<!-- Action Area -->
-     {% if request.user.is_authenticated and request.user.userprofile.role == "client" %}
-<div class="flex items-center gap-4">
-<a class="border border-white text-white px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300" href="{% url 'post_job' %}">
-                    Post Jobs
-                </a>
-</div>
-    {% endif %}
-     {% if request.user.is_authenticated and request.user.userprofile.role == "freelancer" %}
-    <div class="flex items-center gap-4">
-    <a href="{% url 'my_applications' %}"
-   class="border border-white text-white px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
-   My Applications
-    </a></div>
-    {% endif %}
-    <div class="flex items-center gap-4">
+    <!-- Navigation -->
+    <div class="flex flex-wrap items-center gap-2 sm:gap-4
+                font-['Space_Grotesk'] tracking-wider uppercase
+                text-xs sm:text-sm font-medium">
 
-    {% if user.is_authenticated %}
-        <!-- Show when user is logged in -->
-          <div class="flex items-center gap-2 px-4 py-2 rounded-lg
-                    bg-surface-container-high border border-primary/20
-                    shadow-sm">
+        {% if request.user.is_authenticated and request.user.userprofile.role == "freelancer" %}
+
+        <a href="{% url 'freelancer_dashboard' %}"
+           class="px-3 py-2 rounded-lg transition-all duration-300
+           {% if request.resolver_match.url_name == 'freelancer_dashboard' %}
+           text-[#8ff5ff] border border-[#8ff5ff]
+           {% else %}
+           text-slate-400 border border-transparent hover:text-[#8ff5ff]
+           {% endif %}">
+            Dashboard
+        </a>
+
+        <a href="{% url 'edit_profile' %}"
+           class="px-3 py-2 rounded-lg transition-all duration-300
+           {% if request.resolver_match.url_name == 'edit_profile' %}
+           text-[#8ff5ff] border border-[#8ff5ff]
+           {% else %}
+           text-slate-400 border border-transparent hover:text-[#8ff5ff]
+           {% endif %}">
+            Edit Profile
+        </a>
+
+        <a href="{% url 'my_applications' %}"
+           class="px-3 py-2 rounded-lg border border-white text-white
+                  hover:bg-white hover:text-black transition-all duration-300">
+            Applications
+        </a>
+
+        {% endif %}
+
+        {% if request.user.is_authenticated and request.user.userprofile.role == "client" %}
+
+        <a href="{% url 'employer_dashboard' %}"
+           class="px-3 py-2 rounded-lg transition-all duration-300
+           {% if request.resolver_match.url_name == 'employer_dashboard' %}
+           text-[#8ff5ff] border border-[#8ff5ff]
+           {% else %}
+           text-slate-400 border border-transparent hover:text-[#8ff5ff]
+           {% endif %}">
+            Dashboard
+        </a>
+
+        <a href="{% url 'edit_client_profile' %}"
+           class="px-3 py-2 rounded-lg transition-all duration-300
+           {% if request.resolver_match.url_name == 'edit_client_profile' %}
+           text-[#8ff5ff] border border-[#8ff5ff]
+           {% else %}
+           text-slate-400 border border-transparent hover:text-[#8ff5ff]
+           {% endif %}">
+            Edit Profile
+        </a>
+
+        <a href="{% url 'post_job' %}"
+           class="px-3 py-2 rounded-lg border border-white text-white
+                  hover:bg-white hover:text-black transition-all duration-300">
+            Post Jobs
+        </a>
+
+        {% endif %}
+    </div>
+
+    <!-- Auth Buttons -->
+    <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+
+        {% if user.is_authenticated %}
+
+        <div class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg
+                    bg-surface-container-high border border-primary/20">
             <span class="text-xs uppercase tracking-widest text-primary font-semibold">
                 Welcome
             </span>
+
             <span class="text-xs uppercase font-bold text-white font-['Space_Grotesk'] tracking-wide">
                 {{ user.username }}
             </span>
         </div>
-<a href="{% url 'logout' %}"
-   class="px-5 py-2.5 text-sm font-bold uppercase tracking-widest
-          text-white border border-white/40 rounded-lg
-          transition-all duration-300 ease-in-out
-          shadow-[0_0_8px_rgba(255,255,255,0.2)]
-          hover:bg-white hover:text-black
-          hover:shadow-[0_0_18px_rgba(255,255,255,0.6)]">
-   Logout
-</a>
 
-    {% else %}
-        <!-- Show when user is NOT logged in -->
+        <a href="{% url 'logout' %}"
+           class="px-4 py-2 text-sm font-bold uppercase tracking-widest
+                  text-white border border-white/40 rounded-lg
+                  hover:bg-white hover:text-black transition-all duration-300">
+            Logout
+        </a>
+
+        {% else %}
+
         <a href="{% url 'login' %}"
-           class="border border-white text-white px-4 py-2 rounded-lg text-sm font-bold uppercase hover:bg-white hover:text-black transition">
+           class="border border-white text-white px-4 py-2 rounded-lg
+                  text-sm font-bold uppercase hover:bg-white hover:text-black transition">
             Login
         </a>
 
         <a href="{% url 'register' %}"
-           class="bg-white text-black px-4 py-2 rounded-lg text-sm font-bold uppercase hover:bg-gray-200 transition">
+           class="bg-white text-black px-4 py-2 rounded-lg
+                  text-sm font-bold uppercase hover:bg-gray-200 transition whitespace-nowrap">
             Register
         </a>
-    {% endif %}
 
-</div>
+        {% endif %}
+
+    </div>
+
 </nav>
 </header>
 <!-- Main Content Shell -->
-<main class="pt-20 flex-grow relative overflow-hidden">
+<main class="pt-40 sm:pt-28 md:pt-24 flex-grow relative overflow-hidden">
 <!-- Structural Background Elements (Architecture Pulse Style) -->
 <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10"></div>
 <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-secondary-container/5 blur-[160px] rounded-full -z-10"></div>
