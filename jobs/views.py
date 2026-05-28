@@ -16,22 +16,6 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-
-def create_admin(request):
-
-    if not User.objects.filter(username='admin').exists():
-
-        User.objects.create_superuser(
-            'admin',
-            'admin@gmail.com',
-            'admin123'
-        )
-
-        return HttpResponse("Superuser created")
-
-    return HttpResponse("Admin already exists")
-
-
 def client_required(view_func):
     @wraps(view_func)
     @login_required
