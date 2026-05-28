@@ -14,7 +14,22 @@ from django.conf import settings
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.contrib.auth.models import User
 
+def create_admin(request):
+
+    if not User.objects.filter(username='admin').exists():
+
+        User.objects.create_superuser(
+            'admin',
+            'admin@gmail.com',
+            'admin123'
+        )
+
+        return HttpResponse("Superuser created")
+
+    return HttpResponse("Admin already exists")
 
 
 def client_required(view_func):
@@ -44,20 +59,6 @@ def freelancer_required(view_func):
 
     return _wrapped_view
 def index(request):
-    from django.contrib.auth.models import User
-    from django.http import HttpResponse
-    def create_admin(request):
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser(
-                'admin',
-                'admin@gmail.com',
-                'admin123'
-            )
-
-        return HttpResponse("Superuser created")
-
-
-
     return render(request, 'index.html')
 
 @client_required
