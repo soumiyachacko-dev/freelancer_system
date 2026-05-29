@@ -68,7 +68,7 @@
     {% endfor %}
 
     <form method="GET" class="mb-6">
-        <div class="flex gap-2">
+        <div class="flex flex-col sm:flex-row gap-2">
             <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search jobs by title or description..."
                 class="w-full px-4 py-2 rounded-lg bg-[#1c1c1c] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-white">
 
@@ -96,10 +96,10 @@
     <div class="grid md:grid-cols-2 gap-6">
         {% for item in jobs_with_status %}
         <div class="p-4 bg-surface-container rounded-lg border border-outline">
-            <h3 class="font-bold text-white break-words text-xl">
+            <h3 class="font-bold text-white break-all overflow-hidden text-xl">
                 {{ item.job.title|linebreaksbr }}
             </h3>
-            <p class="text-sm text-gray-400 mt-1 break-words">
+           <p class="text-sm text-gray-400 mt-1 break-all overflow-hidden">
                 {{ item.job.description|linebreaksbr }}
             </p>
             <p class="text-sm text-gray-400 mt-2">
